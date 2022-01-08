@@ -1,5 +1,6 @@
 import Foundation
 
+// セクションはその領域内のレイアウト構成種類を示すKindと、タイトルなどの付加情報をもつ
 struct Section: Hashable {
     let id = UUID()
     let kind: Kind
@@ -14,11 +15,13 @@ struct Section: Hashable {
         self.items = items
     }
 
+    // Todayタブ画面でのセクションレイアウト単位
     enum Today: String {
         case header
         case app
     }
-
+    
+    // Gamesタブ画面でのセクションレイアウト単位
     enum App: String {
         case featured
         case large

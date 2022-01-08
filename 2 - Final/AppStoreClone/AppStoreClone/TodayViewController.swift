@@ -1,6 +1,14 @@
 import UIKit
 
 final class TodayViewController: UIViewController {
+    
+    /*
+     DiffableDataSource:
+     indexpathで管理していたものをアイテム固有のidentifierで管理できるようになる。
+     performbatchupdatesで生じていた不整合なindexpathへの操作によるエラーを回避できる。
+     
+     performbatchupdates: https://qiita.com/shiz/items/2e9771fe56e39544ff3e#performbatchupdates
+     */
     private var dataSource: UICollectionViewDiffableDataSource<Section, Item>!
 
     lazy var collectionView: UICollectionView = {
@@ -76,6 +84,7 @@ final class TodayViewController: UIViewController {
             let snapshot = self.dataSource.snapshot()
             let sectionKind = snapshot.sectionIdentifiers[indexPath.section].kind
             
+            // セクションのcellにデータを渡す必要があればここで渡す
             switch sectionKind {
             case .todayHeader:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayHeaderCell.reuseIdentifier, for: indexPath)
@@ -88,6 +97,7 @@ final class TodayViewController: UIViewController {
             }
         }
 
+        // 更新後データの整形
         let sections = [
             Section(kind: .todayHeader, items: [Item()]),
             Section(kind: .todayApp, items: [
